@@ -15,13 +15,13 @@ class Solution:
                 return root.left
             minNode = self.getMin(root.right)
             root.val = minNode.val
-            minNode.val = "null"
             root.right = self.deleteNode(root.right, minNode.val)
         elif root.val > key:
             root.left = self.deleteNode(root.left, key)
         elif root.val < key:
             root.right = self.deleteNode(root.right, key)
         return root
+
     def getMin(self, node :TreeNode):
         while node.left:
             node = node.left
