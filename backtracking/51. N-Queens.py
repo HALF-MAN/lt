@@ -1,36 +1,31 @@
 from typing import List
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        s = ""
-        for _ in range(n):
-            s = s + "."
-        self.board = [s] * n
+        
+        board = [['.'] * n for _ in range(n)]
+        self.n = n
         self.result = []
-        self.backtrack(self.board, 0)
+        self.col = [False] * n
+        self.diag, self.codiag = set(), set()
+        self.backtrack(board, 0)
         return self.result
     def backtrack(self, board, row):
-        if row == len(board):
-            self.result.append(board[:])
-        n = len(board[row])    
-        for col in range(n):
-            if not self.valid(board, row, col):
-                continue
-            board[row][col] = board[row][:col] + 'Q' + board[row][(col+1):]
-            self.backtrack(board, row + 1)
-            board[row][col] = board[row][col].repalce('Q', '.')
-    def valid(self, board, row, col):
-        for i in range(len(board)):
-            if board[i][col] == 'Q':
-                return False
-        for i in range(row - 1, -1, -1):
-            for j in range(col + 1, len(board)):
-                if board[i][j] == 'Q':
-                    return False
-        for i in range(row - 1, -1, -1):
-            for j in range(col - 1, -1, -1):
-                if board[i][j] == 'Q':
-                    return False
-        return True
+        if row == self.n:
+            strTmp = [''.join(row) for row in board]
+            self.result.append(strTmp)
+        for c in range(self.n):
+            if self.valid(row, c):
+                board[row][c] = 'Q'
+                self.col[c] = True
+                self.diag.add(row+c)
+                self.codiag.add(row-c)
+                self.backtrack(board, row + 1)
+                board[row][c] = '.'
+                self.col[c] = False
+                self.diag.remove(row+c)
+                self.codiag.remove(row-c)
+    def valid(self, row, col):
+        return not (self.col[col] or row+col in self.diag or row-col in self.codiag)
 if __name__ == "__main__":
     s = Solution()
     s.solveNQueens(3)
