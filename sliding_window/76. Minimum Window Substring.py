@@ -1,6 +1,8 @@
 import sys
 class Solution(object):
     def minWindow(self, s, t):
+        if len(t) > len(s):
+            return ""
         need = {}
         window = {}
         for char in t:
@@ -20,7 +22,7 @@ class Solution(object):
                 window[c] += 1
                 if window[c] == need[c]:
                     valid += 1
-            while valid == len(t):
+            while valid == len(need):
                 if right - left < minL:
                     start = left
                     minL = right - left
@@ -30,10 +32,10 @@ class Solution(object):
                     if window[d] == need[d]:
                         valid -= 1
                     window[d] -= 1
-        return  s[start:start+minL]
+        return  "" if minL == sys.maxsize else s[start:start+minL]
 
 if __name__ == "__main__":
-    S = "ADOBECODEBANC"
-    T = "ABC"
+    S = "a"
+    T = "b"
     s = Solution()
     print(s.minWindow(S,T))
