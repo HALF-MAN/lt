@@ -3,7 +3,7 @@ import sys
 class Solution:
     def pancakeSort(self, A: List[int]) -> List[int]:
         result = []
-        self.pancake(A, len(A) - 1,result)
+        self.pancake(A, len(A),result)
         return result
     def pancake(self, arr, n, result):
         if n <= 0:
